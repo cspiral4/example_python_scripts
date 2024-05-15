@@ -5,6 +5,12 @@ Currently, pre_build.py fails to find Qt - I am using the 5.15.3 version
 that comes with Ubuntu, installed with apt-get.  This also configures the 
 system with the latest Vulkan SDK.
 
+### Building
+
+`mv rga.dockerignore .dockerignore`
+
+`docker build -t myrga .`
+
 ### Deploying your application to the cloud
 
 First, build your image, e.g.: `docker build -t myapp .`.

@@ -27,29 +27,58 @@ FROM ubuntu:22.04 AS base
 # executable. For language-specific examples, take a look at the Dockerfiles in
 # the Awesome Compose repository: https://github.com/docker/awesome-compose
 FROM base as build
-RUN apt-get update && apt-get install -y build-essential
-RUN apt-get install -y wget python3
-RUN apt-get install -y python-is-python3
-RUN apt-get install -y libboost-all-dev
-RUN apt-get install -y gcc-multilib g++-multilib cmake git
-RUN apt-get install -y libglu1-mesa-dev
-RUN apt-get install -y mesa-common-dev
-RUN apt-get install -y libgtk2.0-dev
-RUN apt-get install -y zlib1g-dev libx11-dev
-RUN apt-get -q install -y qtbase5-dev
-RUN apt-get -q install -y qtbase5-dev-tools
-RUN apt-get -q install -y qt5-qmake
-RUN wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc | tee /etc/apt/trusted.gpg.d/lunarg.asc
-RUN wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list https://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list
-RUN apt-get update && apt-get install -y vulkan-sdk
-RUN mkdir my_docker_test
-RUN git clone https://github.com/GPUOpen-Tools/radeon_gpu_analyzer.git /my_docker_test/radeon_gpu_analyzer
-RUN ls -l /usr/bin/*qt* /usr/lib/qt5 /usr/lib/x86_64-linux-gnu/qt5/* /usr/include/x86_64-linux-gnu/qt5/*
-RUN /bin/python /my_docker_test/radeon_gpu_analyzer/build/pre_build.py --qt 5.15.3 --qt-root /usr/bin --vk-include /usr/include/vulkan/ --vk-lib /usr/lib/x86_64-linux-gnu/vulkan/
-# try /usr/include/x86_64-linux-gnu/qt5/ as qt-root
-# RUN cmake -B/my_docker_test/radeon_gpu_analyzer/build/release -DCMAKE_BUILD_TYPE=Release /my_docker_test/radeon_gpu_analyzer/
-# RUN cd /my_docker_test/radeon_gpu_analyzer/build/release && make -j4
-# RUN ls -R /my_docker_test/radeon_gpu_analyzer/build/release
+
+RUN <<EOF
+    set -e
+    set -x
+    export DISPLAY="10.0.0.101:0.0"
+    apt-get update
+    apt-get install -y apt-utils
+    apt-get install -y perl
+    apt-get upgrade -y
+    apt-get install -y wget
+    wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc | tee /etc/apt/trusted.gpg.d/lunarg.asc
+    wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list https://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list
+    apt-get update
+    apt-get install -y build-essential
+    apt-get install -y python3
+    apt-get install -y python-is-python3
+    apt-get install -y libboost-all-dev
+    apt-get install -y gcc-multilib g++-multilib cmake git
+    apt-get install -y libglu1-mesa-dev
+    apt-get install -y mesa-common-dev
+    apt-get install -y libgtk2.0-dev
+    apt-get install -y zlib1g-dev libx11-dev
+    apt-get install -y vulkan-sdk
+    apt-get install -y libxcb1 libxcb1-dev
+    apt-get install -y libxcb-xinerama0 libxcb-xinerama0-dev
+    apt-get install -y xfce4 xfce4-goodies
+    wget -qO /tmp/qt-installer.run https://d13lb3tujbc8s0.cloudfront.net/onlineinstallers/qt-online-installer-linux-x64-4.8.0.run
+    chmod +x /tmp/qt-installer.run
+    mkdir -p /opt/Qt
+    # this installer is interactive, so we set DISPLAy to a valid X Server and use the --accept options to accept the license.
+    /tmp/qt-installer.run -t /opt/Qt -p xcb --am --al -c --ao
+    # Using apt-get to install QtCreator is not working.
+    # echo "2\n" > ./qtcreator.txt
+    # cat ./qtcreator.txt
+    # export qtc_input=./qtcreator.txt
+    # apt-get install -y qtcreator
+    # apt-get install -y qtbase5-dev
+    # apt-get install -y qtbase5-dev-tools
+    # apt-get install -y qt5-qmake
+EOF
+RUN <<EOF2
+    set -e
+    set -x
+    mkdir my_docker_test
+    git clone https://github.com/GPUOpen-Tools/radeon_gpu_analyzer.git /my_docker_test/radeon_gpu_analyzer
+    ls -l /opt/Qt
+    # /bin/python /my_docker_test/radeon_gpu_analyzer/build/pre_build.py --qt 5.15.3 --qt-root /usr/bin --vk-include /usr/include/vulkan/ --vk-lib /usr/lib/x86_64-linux-gnu/vulkan/
+    # try /usr/include/x86_64-linux-gnu/qt5/ as qt-root
+    # cmake -B/my_docker_test/radeon_gpu_analyzer/build/release -DCMAKE_BUILD_TYPE=Release /my_docker_test/radeon_gpu_analyzer/
+    # cd /my_docker_test/radeon_gpu_analyzer/build/release && make -j4
+    # ls -R /my_docker_test/radeon_gpu_analyzer/build/linux
+EOF2
 
 ################################################################################
 # Create a final stage for running your application.

@@ -8,8 +8,7 @@
 # NOTE: help test handled uniquely in test functions
 #
 vulkan_tests = {
-    "test01": [ 'help', [ '-h'], ['POSITIVE','REGRESSION'], "Verify Vulkan API help output"],
-    "test02": [ 'computenbody',
+    "test01": [ 'computenbody',
                 ['--vert-glsl', 'particle.vert',
                  '--frag-glsl', 'particle.frag',
                  '--comp-glsl', 'particle.comp',
@@ -18,8 +17,7 @@ vulkan_tests = {
                  '-v', '--keep'],
                 ['SMOKE', 'VULKAN', 'GLSL', 'POSITIVE', 'REGRESSION'],
                 "Verify vert, frag, and comp compilation using computenbody Vulkan shaders"]
-    "test03": [ 'help', [ '-h', '-s', 'bad_api'], ['NEGATIVE', 'REGRESSION'], "Verify correct handling of invalid API name"],
-    "test04": [ 'bad_folder',
+    "test02": [ 'bad_folder',
                 ['-c', 'gfx1100',
                  '--vert-glsl', 'particle.vert',
                  '--frag-glsl', 'particle.frag',

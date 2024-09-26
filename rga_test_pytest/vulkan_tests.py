@@ -30,4 +30,4 @@ vulkan_tests = {
     }
 
 # Default GPUs for test targets.
-vulkan_target_gpus = 'gfx1100,gfx1000'
+vulkan_target_gpu = 'gfx1100'

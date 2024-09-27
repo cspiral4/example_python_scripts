@@ -1,0 +1,1 @@
+The python script and modules in this folder implements a parameterized functional test of the RGA command line in python using unittest with the parameterized module.  I haven't used @parameterized before, still testing to see if it meets my needs.

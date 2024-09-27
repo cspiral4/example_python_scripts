@@ -1,0 +1,1 @@
+The python script and modules in this folder implements a functional test of the RGA command line in python using unittest.  Unittest alone feels inadequate.

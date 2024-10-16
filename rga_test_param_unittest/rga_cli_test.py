@@ -44,7 +44,6 @@ class TestRgaCli(unittest.TestCase):
     def build_params_list(self):
         # Convert vulkan_tests to input parameters for positive and negative tests
         test_names = list(vulkan_tests)
-        test_params = [(None, None, None)]
         for test_name in test_names:
             if TEST_SUITE in vulkan_tests[test_name][2]:
                 cmd_options = construct_cmd_opts(vulkan_tests[test_name][1], vulkan_tests[test_name][0])

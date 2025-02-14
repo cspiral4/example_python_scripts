@@ -1,0 +1,553 @@
+NAME:       Chiun
+LEVEL:      8
+EXP:        23000
+EXP NEEDED: 34000
+AGE:        64
+DEITY:      Mystra
+ALIGNMENT:  Lawful Neutral
+RACE:       Human-Variant
+PROF BONUS: None
+PERCEPTION: 15
+PERCEP MOD: 0
+GENDER:     Male
+SIZE:       Medium
+HEIGHT:     5'6"
+WEIGHT:     120
+BACKGROUND: Hermit
+APPEARANCE: a short and relatively slim elderly Shou man with simple clothing who appears completely harmless other than the spear he wields, in reality, he is a deadly combatant and a master of the martial art style known as Sinanju. Chiun enjoys dispatching enemies with a lethal kick to the testacles, or alternately using Ki Power to kick and twist his foot in his opponents testicles, denying them reactions for 1 round. Thus Misty fondly calls him my ball busting grand daddy.
+TRAITS:     I'm oblivious to etiquette and social and social expectations
+IDEALS:     Emotions must not cloud our sense of what is right and true, or our logical thinking,
+FLAWS:      I am dogmatic in my thoughts and philosophy
+BONDS:      I'm still seeking the enlightenment I pursued in my seclusion, and it still eludes me.
+
+charisma
+	score:            8
+	bonus:            -1
+	save proficiency: 0
+	save:             -1
+	save modifier:    0
+
+constitution
+	score:            14
+	bonus:            2
+	save proficiency: 0
+	save:             2
+	save modifier:    0
+
+dexterity
+	score:            20
+	bonus:            5
+	save proficiency: 1
+	save:             8
+	save modifier:    0
+
+intelligence
+	score:            10
+	bonus:            0
+	save proficiency: 0
+	save:             0
+	save modifier:    0
+
+strength
+	score:            12
+	bonus:            1
+	save proficiency: 1
+	save:             4
+	save modifier:    0
+
+wisdom
+	score:            14
+	bonus:            2
+	save proficiency: 0
+	save:             2
+	save modifier:    0
+
+CLASS: Monk
+LEVEL: 7
+HIT DIE: d8
+
+CLASS: Cleric
+LEVEL: 1
+HIT DIE: d8
+
+HIT POINTS: 59
+INITIATIVE BONUS: 5
+ARMOR CLASS: 17
+	ARMOR: 0
+	MISC BONUS: 0
+	PROFICIENCY: 1
+	SHIELD: 0
+	STAT2: wisdom
+	TEMP BONUS: 0
+
+FEAT: Spear Mastery
+FEATURE: Discovery, SOURCE: None
+FEATURE: Unarmored Defense, SOURCE: None
+FEATURE: Martial Arts, SOURCE: None
+FEATURE: Life Domain, SOURCE: None
+FEATURE: Spellcasting, SOURCE: None
+FEATURE: Disciple of Life, SOURCE: None
+FEATURE: Bonus Proficiency (Life), SOURCE: None
+FEATURE: Unarmored Movement, SOURCE: None
+FEATURE: Ki, SOURCE: None
+FEATURE: Way of the Open Hand, SOURCE: None
+FEATURE: Deflect Missiles, SOURCE: None
+FEATURE: Open Hand Technique, SOURCE: None
+FEATURE: Slow Fall, SOURCE: None
+FEATURE: Ability Score Improvement, SOURCE: None
+FEATURE: Extra Attack, SOURCE: None
+FEATURE: Stunning Strike, SOURCE: None
+FEATURE: Ki-Empowered Strikes, SOURCE: None
+FEATURE: Wholeness of Body, SOURCE: None
+FEATURE: Stillness of Mind, SOURCE: None
+FEATURE: Evasion, SOURCE: None
+
+SPEED: BASE: 30
+	ARMOR: 0
+	MISC: 15
+	TEMPORARY: 0
+	TOTAL: 45
+
+LANGUAGES
+	Common
+	Draconic
+	Elvish
+	Aquan
+
+SKILLS
+	NAME: Perception
+	PROFICIENCY: 1
+	STAT: wisdom
+	TOTAL: 5
+
+	NAME: Medicine
+	PROFICIENCY: 1
+	STAT: wisdom
+	TOTAL: 5
+
+	NAME: Religion
+	PROFICIENCY: 1
+	STAT: intelligence
+	TOTAL: 3
+
+	NAME: Acrobatics
+	PROFICIENCY: 1
+	STAT: dexterity
+	TOTAL: 8
+
+	NAME: Stealth
+	PROFICIENCY: 1
+	STAT: dexterity
+	TOTAL: 8
+
+	NAME: Arcana
+	PROFICIENCY: 0
+	STAT: intelligence
+	TOTAL: 0
+
+	NAME: Persuasion
+	PROFICIENCY: 0
+	STAT: charisma
+	TOTAL: -1
+
+	NAME: Nature
+	PROFICIENCY: 0
+	STAT: intelligence
+	TOTAL: 0
+
+	NAME: Survival
+	PROFICIENCY: 0
+	STAT: wisdom
+	TOTAL: 2
+
+	NAME: Performance
+	PROFICIENCY: 0
+	STAT: charisma
+	TOTAL: -1
+
+	NAME: Athletics
+	PROFICIENCY: 0
+	STAT: strength
+	TOTAL: 1
+
+	NAME: Sleight of Hand
+	PROFICIENCY: 0
+	STAT: dexterity
+	TOTAL: 5
+
+	NAME: Insight
+	PROFICIENCY: 0
+	STAT: wisdom
+	TOTAL: 2
+
+	NAME: Intimidation
+	PROFICIENCY: 0
+	STAT: charisma
+	TOTAL: -1
+
+	NAME: Deception
+	PROFICIENCY: 0
+	STAT: charisma
+	TOTAL: -1
+
+	NAME: Investigation
+	PROFICIENCY: 0
+	STAT: intelligence
+	TOTAL: 0
+
+	NAME: History
+	PROFICIENCY: 0
+	STAT: intelligence
+	TOTAL: 0
+
+	NAME: Animal Handling
+	PROFICIENCY: 0
+	STAT: wisdom
+	TOTAL: 2
+
+	NAME: Herbalist Kit
+	PROFICIENCY: 1
+	STAT: wisdom
+	TOTAL: 5
+
+
+PROFICIENCY BONUS: 3
+PROFICIENCIES:
+	Tool: Herbalism kit
+	Weapon: Simple weapons, shortswords
+	Tool: Choose one type of artisan's tools or one musical instrument
+	Armor: Light armor, medium armor, shields
+
+WEAPONS
+NAME: Siyah Shortbow
+PROF: 1
+AMMO: 1
+MAX AMMO: 20
+ATTACK BONUS: 0
+DAMMAGE BONUS: 0
+DAMMAGE DICE: d6
+DAMMAGE TYPE: piercing
+PROPERTIES: Ammunition (range 80/320), two-handed
+
+NAME: Spear Mastery Death Blow Weapon set
+PROF: 1
+AMMO: None
+MAX AMMO: 0
+ATTACK BONUS: 1
+DAMMAGE BONUS: None
+DAMMAGE DICE: d10,d10
+DAMMAGE TYPE: magic, piercing
+DAMMAGE BONUS: None
+DAMMAGE DICE: d4
+DAMMAGE TYPE: magic, fire
+PROPERTIES: magic
+
+NAME: Coll. Fire Short Sword
+PROF: 1
+AMMO: None
+MAX AMMO: 0
+ATTACK BONUS: 0
+DAMMAGE BONUS: 0
+DAMMAGE DICE: d6
+DAMMAGE TYPE: magic, piercing
+DAMMAGE BONUS: None
+DAMMAGE DICE: d4
+DAMMAGE TYPE: magic, fire
+PROPERTIES: Finesse, light
+
+NAME: Sinanju Martial Arts Style
+PROF: 1
+AMMO: None
+MAX AMMO: 0
+ATTACK BONUS: None
+DAMMAGE BONUS: None
+DAMMAGE DICE: d6
+DAMMAGE TYPE: bludgeoning, magic
+PROPERTIES: bludgeoning, magic
+
+NAME: Coll. Fire Spear-2 hand
+PROF: 1
+AMMO: None
+MAX AMMO: 0
+ATTACK BONUS: 1
+DAMMAGE BONUS: 0
+DAMMAGE DICE: d10
+DAMMAGE TYPE: magic, piercing
+DAMMAGE BONUS: 0
+DAMMAGE DICE: d4
+DAMMAGE TYPE: magic, fire
+PROPERTIES: Thrown (range 20/60), versatile (1d8)
+
+NAME: Spear Fire Thrown
+PROF: 1
+AMMO: 0
+MAX AMMO: 1
+ATTACK BONUS: 1
+DAMMAGE BONUS: 0
+DAMMAGE DICE: d8
+DAMMAGE TYPE: piercing, magic
+DAMMAGE BONUS: 0
+DAMMAGE DICE: d4
+DAMMAGE TYPE: fire, magic
+PROPERTIES: Thrown (range 20/60), versatile (1d8)
+
+
+MONEY
+PP: 90
+SP: 51
+GP: 272
+CP: 1065
+
+INVENTORY
+ITEM: Bedroll, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Adventuring Gear
+	WEIGHT: 7
+	COST: 1 gp
+
+ITEM: Rations (10 Days), COUNT: 10
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 2
+	COST: 5 sp
+
+ITEM: Sapphires @100 gp value per, COUNT: 2
+	IS IDENTIFIED: None
+	LOCATION: None
+	TYPE: None
+	WEIGHT: 0
+	COST: None
+
+ITEM: Tinderbox, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 1
+	COST: 5 sp
+
+ITEM: Waterskin, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 5
+	COST: 2 sp
+
+ITEM: Mess Kit, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 1
+	COST: 2 sp
+
+ITEM: Rope, Hempen (50 Feet), COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 10
+	COST: 1 gp
+
+ITEM: Backpack (Main), COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 5
+	COST: 2 gp
+
+ITEM: Shortbow, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Weapon
+	WEIGHT: 2
+	COST: 25 gp
+
+ITEM: Arrow, COUNT: 20
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 0.05
+	COST: 5 cp
+
+ITEM: Brooch of Shielding, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Wondrous Item
+	WEIGHT: 0
+	COST: 101 - 500 gp
+
+ITEM: Case, Map Or Scroll, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Adventuring Gear
+	WEIGHT: 1
+	COST: 1 gp
+
+ITEM: Herbalism Kit, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Tools
+	WEIGHT: 3
+	COST: 5 gp
+
+ITEM: Blanket, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Adventuring Gear
+	WEIGHT: 3
+	COST: 5 sp
+
+ITEM: Clothes, Common, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Adventuring Gear
+	WEIGHT: 3
+	COST: 5 sp
+
+ITEM: Emblem (Burned into right hand Mystra), COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 0
+	COST: 5 gp
+
+ITEM: Ring of Warmth, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Ring
+	WEIGHT: 0.01
+	COST: 101 - 500 gp
+
+ITEM: Cloak of the Manta Ray, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Wondrous Item
+	WEIGHT: 2
+	COST: 101 - 500 gp
+
+ITEM: Periapt of Wound Closure, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Attuned
+	TYPE: Wondrous Item
+	WEIGHT: 0.1
+	COST: 101 - 500 gp
+
+ITEM: Potion Of Healing, COUNT: 2
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 0.5
+	COST: 50 gp
+
+ITEM: Collapsible Spear of Fire, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Weapon
+	WEIGHT: 3
+	COST: 101 - 500 gp
+
+ITEM: Shortsword, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Weapon
+	WEIGHT: 2
+	COST: 10 gp
+
+ITEM: Clockwork Amulet, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Wearing
+	TYPE: Wondrous Item
+	WEIGHT: 0
+	COST: 50 - 100 gp
+
+ITEM: Cloak of Elvenkind, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Attuned
+	TYPE: Wondrous Item
+	WEIGHT: 2
+	COST: 101 - 500 gp
+
+ITEM: Ruby @ 250 gp, COUNT: 1
+	IS IDENTIFIED: None
+	LOCATION: None
+	TYPE: None
+	WEIGHT: 0
+	COST: None
+
+ITEM: Potion of Lightning Resistance, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Potion
+	WEIGHT: 0.5
+	COST: 101 - 500 gp
+
+ITEM: Carved Ivory Statuette, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: Backpack (Main)
+	TYPE: Treasure
+	WEIGHT: 0.01
+	COST: 250 gp
+
+ITEM: Backpack Parachute, COUNT: 1
+	IS IDENTIFIED: None
+	LOCATION: None
+	TYPE: Adventuring Gear
+	WEIGHT: 5
+	COST: -
+
+ITEM: Potion of Fire Resistance, COUNT: 1
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Potion
+	WEIGHT: 0.5
+	COST: 101 - 500 gp
+
+ITEM: Potion of Greater Healing, COUNT: 3
+	IS IDENTIFIED: 1
+	LOCATION: None
+	TYPE: Potion
+	WEIGHT: 0.5
+	COST: 101 - 500 gp
+
+
+ENCUMBERED:      60
+ENCUMBEREDHEAVY: 120
+LIFT/PUSH/DRAG:  360
+LOAD:            79.62
+MAX:             180
+
+
+POWERGROUP
+
+NAME: Spells
+	ATTACK PROFICIENCY: 1
+	CASTER TYPE: memorization
+	PREPARED: 3
+	SAVE PROFICIENCY: 1
+	STAT: wisdom
+
+NAME: Ki Points
+	ATTACK PROFICIENCY: 1
+	CASTER TYPE: None
+	PREPARED: None
+	SAVE PROFICIENCY: 1
+	STAT: None
+
+NAME: Magic Items
+	ATTACK PROFICIENCY: 1
+	CASTER TYPE: None
+	PREPARED: None
+	SAVE PROFICIENCY: 1
+	STAT: None
+
+NAME: Full Monk Powers
+	ATTACK PROFICIENCY: None
+	CASTER TYPE: None
+	PREPARED: None
+	SAVE PROFICIENCY: None
+	STAT: None
+
+SPELL SLOTS
+SLOT: spellslots1
+MAX SLOTS: 2
+

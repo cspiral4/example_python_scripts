@@ -1,8 +1,10 @@
 #!python
 #
 # Make sure modules are installed first:
-#
 # python -m pip install flask gevent google google-api-python-client
+#
+# to run:
+# python ATCalendar.py
 #
 from flask import Flask, redirect, request, url_for
 import requests

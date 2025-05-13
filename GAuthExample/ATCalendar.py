@@ -123,7 +123,8 @@ def open_google_calendar(access_token: str):
         return service
 
     except HttpError as error:
-        return f"An error occurred: {error}"
+        print(f"An error occurred: {error}")
+        return None
 
 def create_event(service, summary, description, start_time, end_time):
     """
@@ -149,7 +150,12 @@ def create_event(service, summary, description, start_time, end_time):
         },
     }
     new_event = service.events().insert(calendarId='primary', body=event_data).execute()
-    print(f'Event created: {new_event.get("htmlLink")}')
+    if not new_event:
+        print(f'Event created: {new_event.get("htmlLink")}')
+        return new_event
+    else:
+        print("ERROR: Unable to create Calendar event")
+        return None
 
 # As an FYI, this is a method to read the calendar entries
 # TBD: add start and end times to input argument list
@@ -171,13 +177,13 @@ def read_google_events(service):
     cal_events = results.get('items', [])
 
     if not cal_events:
-        print("No upcoming events found.")
-        return None
-    else:
         for event in cal_events:
             start = event['start'].get('dateTime', event['start'].get('date'))
             print(start, event.get('summary'))
         return cal_events
+    else:
+        print("No upcoming events found.")
+        return None
 
 
 if __name__ == "__main__":

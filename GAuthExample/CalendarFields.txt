@@ -1,0 +1,32 @@
+AirTable Calendar events field names
+
+Field Name: Title
+Field Name: Description
+Field Name: Status
+Field Name: Start Time
+Field Name: End Time
+Field Name: Recurrence
+Field Name: Location
+Field Name: Event Image
+Field Name: Excerpt
+Field Name: New Organizer Name
+Field Name: New Organizer Phone
+Field Name: New Organizer eMail
+Field Name: Event Price
+Field Name: Who
+Field Name: Organizers
+Field Name: Created
+Field Name: Duration (m)
+
+Google Calendar events field name used:
+
+summary: Title
+description: Description
+start: Start Time
+end: End Time
+recurrence: Recurrence
+
+could also do:
+attendees: Who (if this is a list of emails.)
+location: Location
+

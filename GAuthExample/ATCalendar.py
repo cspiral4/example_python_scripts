@@ -15,11 +15,11 @@ import AirTableUtils as ATUtils
 import GoogleUtils as GUtils
 
 # AirTable authentication info.
-# replace your_airtable_pat, appXXXXXXXXXXXXXX, and tabld_id
+# replace your_airtable_pat, appXXXXXXXXXXXXXX, and Calendar
 # with the actual values
 AT_PAT = "your_airtable_pat"
 AT_BASE_ID = "appXXXXXXXXXXXXXX"
-AT_TABLE_ID = "table_id"
+AT_TABLE_ID = "Calendar"
 
 
 if __name__ == "__main__":
@@ -47,6 +47,8 @@ if __name__ == "__main__":
         # Use airtable events to create google calendar events.
         for at_event in at_events:
             GUtils.create_event(calendar_service,
-                                at_event["name"],
+                                at_event["summary"],
                                 at_event["description"],
-                                at_event["start_date"], at_event["end_date"])
+                                at_event["start"], at_event["end"],
+                                at_event["recurrence"],
+                               )

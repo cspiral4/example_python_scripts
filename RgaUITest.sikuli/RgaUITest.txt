@@ -1,0 +1,123 @@
+Sikuli is a powerful tool for automating graphical user interface (GUI) testing by using image recognition to interact with UI elements. To test the **Radeon GPU Analyzer (RGA) UI** using Sikuli, you’ll need to perform the following steps:
+
+1. **Install Sikuli**: You’ll need to install SikuliX, which is the version of Sikuli for Python.
+2. **Capture Screenshots**: You'll need to capture screenshots of the UI elements in the **Radeon GPU Analyzer** that you want to interact with, such as buttons, labels, and input fields.
+3. **Write the Script**: Use Sikuli's API to automate the interaction with the captured images.
+
+### Step 1: Install Sikuli
+
+SikuliX provides a Python API that you can use. To get started, download and install **SikuliX**. Follow the installation instructions on the SikuliX [official website](https://sikulix.com/).
+
+Once SikuliX is installed, you can run the Python script with Sikuli's environment. 
+
+### Step 2: Capture UI Elements in Radeon GPU Analyzer
+
+Before writing the script, you’ll need to capture screenshots of the UI elements you want to interact with. You can use the Sikuli IDE or another screenshot tool to capture the UI components (e.g., buttons, checkboxes, etc.) and save them as image files.
+
+- For instance:
+  - Capture the screenshot of the "Analyze" button: `analyze_button.png`
+  - Capture the screenshot of a drop-down list: `dropdown_list.png`
+  - Capture any other elements you need for your tests.
+
+Make sure to save these images in the same directory as your Python script or specify their full paths.
+
+### Step 3: Write the Sikuli Script
+
+Here’s a Python script that uses Sikuli to test the **Radeon GPU Analyzer** UI by interacting with the elements captured.
+
+```python
+import time
+from sikuli import *
+
+def test_radeon_gpu_analyzer():
+    # Open the Radeon GPU Analyzer (assume it's already installed and located on the system)
+    try:
+        # Launch Radeon GPU Analyzer (RGA) - adjust the command as per your system
+        # For Windows, you might use something like:
+        # App.open("C:/Program Files/Radeon GPU Analyzer/rgaviewer.exe")
+        # For Linux or macOS, adjust accordingly
+        App.open("path_to_RGA_executable/rgaviewer")
+
+        # Wait for the application to open
+        time.sleep(5)
+
+        # Verify if the main window is open (checking for the presence of a known UI element like a button)
+        if exists("analyze_button.png", 10):  # waits for 10 seconds for the analyze button to appear
+            print("Radeon GPU Analyzer is up and running.")
+        else:
+            print("Radeon GPU Analyzer UI not detected. Exiting test.")
+            return
+
+        # Example 1: Click on the "Analyze" button
+        analyze_button = find("analyze_button.png")
+        click(analyze_button)
+        print("Clicked on the 'Analyze' button.")
+
+        # Example 2: Interact with a drop-down list (assumed to exist on the UI)
+        dropdown = find("dropdown_list.png")
+        click(dropdown)
+        print("Clicked on the dropdown list.")
+
+        # Example 3: Select a value from the dropdown (this assumes the option is visible)
+        dropdown_option = find("dropdown_option.png")  # Capture the screenshot of the desired option
+        click(dropdown_option)
+        print("Selected dropdown option.")
+
+        # Example 4: Check for a specific label or text after some operation
+        result_label = find("result_label.png")  # Label showing the result of analysis
+        if result_label:
+            print("Test completed successfully: Result label found.")
+        else:
+            print("Test failed: Result label not found.")
+
+        # Example 5: Close the Radeon GPU Analyzer
+        close_button = find("close_button.png")
+        click(close_button)
+        print("Closed Radeon GPU Analyzer.")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    test_radeon_gpu_analyzer()
+```
+
+### Explanation of the Script:
+
+1. **Launch Radeon GPU Analyzer**: The script starts by opening the **Radeon GPU Analyzer** (RGA) application. You'll need to adjust the path to the executable of RGA according to your system. The `App.open()` function is used to open the application.
+  
+2. **Wait for UI to Load**: `time.sleep(5)` is used to wait for 5 seconds to ensure the application is fully loaded. You can adjust this based on the speed of your system.
+
+3. **Image Recognition with Sikuli**:
+   - `exists("analyze_button.png", 10)`: This checks if the "Analyze" button is present within 10 seconds.
+   - `find("analyze_button.png")`: This locates the "Analyze" button on the screen.
+   - `click(analyze_button)`: This clicks the found "Analyze" button.
+   
+   You’ll need to have images (`analyze_button.png`, `dropdown_list.png`, etc.) for Sikuli to match UI elements in the application.
+
+4. **Interaction with Dropdown**: It clicks on a dropdown list and selects an option, assuming you've captured an image of the dropdown option.
+
+5. **Check for Results**: The script checks if a result label is present on the screen after the "Analyze" button is clicked, indicating that the analysis was completed.
+
+6. **Close the Application**: Finally, the script closes the application by clicking the close button.
+
+### Step 4: Running the Script
+
+1. Save the script to a `.py` file, such as `test_rga_ui.py`.
+2. Make sure SikuliX is properly installed and configured on your system.
+3. Run the script in a terminal or command prompt with Sikuli's environment activated.
+
+```bash
+python test_rga_ui.py
+```
+
+### Notes:
+
+- **Image Matching**: Sikuli relies on image recognition to locate UI elements. Make sure the images you capture are clear, have a high resolution, and are cropped to only contain the UI element you need.
+- **Timeouts**: The script uses `exists()` to check if the elements are present within a specified timeout period (e.g., 10 seconds). Adjust the timeout values based on how long it takes for UI elements to appear.
+- **Error Handling**: The script includes a try-except block to handle errors that may occur during the test, such as if the application is not found or a UI element is not detected.
+- **Sikuli IDE**: You can also use Sikuli's IDE to visually test and debug your scripts before running them in a full Python environment.
+
+### Conclusion:
+
+This Sikuli-based Python script allows you to automate testing of the **Radeon GPU Analyzer UI**, interacting with buttons, dropdowns, and labels. By capturing screenshots of the UI components, Sikuli can recognize and interact with the application, providing a convenient way to automate GUI-based tests. Let me know if you need further assistance or customization for your test case!

@@ -23,26 +23,13 @@ def fetch_airtable_calendar(pat, base_id, table_id, max_records=100):
     events = []
     for record in records:
         fields = record.get("fields", {})
-
         event = {
-            "name": fields.get("Title"),
-            "start_date": fields.get("Start Time"),
-            "end_date": fields.get("End Time"),
-            "description": fields.get("Description", "")
+            "summary": fields.get("Title"),
+            "start": fields.get("Start Time"),
+            "end": fields.get("End Time"),
+            "description": fields.get("Description", ""),
+            "recurrence": fields.get("Recurrence", "Once")
         }
-
-        # Parse the dateS into a datetime object.
-        if event["start_date"]:
-            try:
-                event["start_date"] = datetime.datetime.fromisoformat(event["start_date"].replace('Z', '+00:00'))
-            except ValueError:
-                print("WARNING: Unable to convert start_date to datetime format for %s"%event["name"])
-        if event["end_date"]:
-            try:
-                event["end_date"] = datetime.datetime.fromisoformat(event["end_date"].replace('Z', '+00:00'))
-            except ValueError:
-                print("WARNING: Unable to convert end_date to datetime format for %s"%event["name"])
-
         events.append(event)
 
     return events

@@ -119,7 +119,7 @@ def open_google_calendar(access_token: str):
         print(f"An error occurred: {error}")
         return None
 
-def create_event(service, summary, description, start_time, end_time):
+def create_event(service, summary, description, start_time, end_time, recurrence="Once"):
     """
     Add an event to the google calendar referenced by service
 
@@ -134,13 +134,16 @@ def create_event(service, summary, description, start_time, end_time):
         'summary': summary,
         'description': description,
         'start': {
-            'dateTime': start_time.isoformat(),
+            'dateTime': start_time,
             'timeZone': 'America/New_York',  # Adjust to your timezone
         },
         'end': {
-            'dateTime': end_time.isoformat(),
+            'dateTime': end_time,
             'timeZone': 'America/New_York',  # Adjust to your timezone
         },
+        'recurrence': [
+            f'RRULE:FREQ={recurrence}'
+        ],
     }
     new_event = service.events().insert(calendarId='primary', body=event_data).execute()
     if new_event is None:
@@ -169,12 +172,8 @@ def read_google_events(service):
     ).execute()
     cal_events = results.get('items', [])
 
-    if not cal_events:
-        for event in cal_events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            print(start, event.get('summary'))
-        return cal_events
-    else:
+    if cal_events is None:
         print("No upcoming events found.")
         return None
-
+    else:
+        return cal_events

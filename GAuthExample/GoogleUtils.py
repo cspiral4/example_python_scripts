@@ -22,8 +22,9 @@ app = Flask(__name__)
 # Used to store the token once captured.
 auth_token_data = {}
 
+#
 # Authentication functions, using Flask to create a web server process.
-
+#
 # Defines the default URI used when the server starts the Flask app.
 # This acts as the index.html file of a web site.
 @app.route("/")
@@ -65,6 +66,9 @@ def callback():
     }
 
     response = requests.post(token_url, data=data)
+    if response is None:
+        print("ERROR: Unable to obtain google auth response")
+        return "Token not obtained"
     token_info = response.json()
     auth_token_data.update(token_info)
 
@@ -85,8 +89,16 @@ def start_auth_flow():
     Start up the temporary web service/flask app in a separate thread, then wait for 
     the callback to update auth_token_data.
     """
-    threading.Thread(target=run_flask_app, daemon=True).start()
+    web_thread = threading.Thread(target=run_flask_app, daemon=True)
+    if web_thread is None:
+        print("ERROR: unable to start web server thread")
+        return None
+    else:
+        web_thread.start()
+
+    print("INFO: opening browser")
     webbrowser.open("http://localhost:5000")
+    print("INFO: browser opened")
 
     # Wait until token is captured
     while "access_token" not in auth_token_data:
@@ -94,8 +106,10 @@ def start_auth_flow():
 
     return auth_token_data
 
-
-# Calendar read function.
+#
+# Calendar functions.
+#
+# Start a google service that talks to the user's Calendar
 # Uses the token_data info returned by start_auth_flow()
 def open_google_calendar(access_token: str):
     """
@@ -119,33 +133,86 @@ def open_google_calendar(access_token: str):
         print(f"An error occurred: {error}")
         return None
 
-def create_event(service, summary, description, start_time, end_time, recurrence="Once"):
+# The day of the week is needed for calendar events
+# that recur on a particular week day, like second
+# Tuesday of every month.  This uses the start date
+# to determine the weekday.
+def get_day_of_week(date_string):
+    """
+    Determines the day of the week from a date string.
+
+    Parameters:
+        date_string (str): The date string in the specified format.
+
+    Returns:
+        str: The name of the day of the week (e.g., "Monday").
+    """
+    date = date_string.split('T')
+    date_object = datetime.datetime.strptime(date[0], "%Y-%m-%d").date()
+    day_of_week_number = date_object.weekday()  # Sunday is 0, Saturday is 6
+    days = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]
+    return days[day_of_week_number]
+
+def create_event(service, event_data):
     """
     Add an event to the google calendar referenced by service
 
     Parameters:
     - service: Google calendar link
-    - summary: Calendar event summary text
-    - description: Calendar event description
-    - start_time: Start date/time of Calendar event
-    - end_time: End date/time of Calendar event
+    - event_data: calendar event data for creating a new
+      google calendar event.
     """
-    event_data = {
-        'summary': summary,
-        'description': description,
+
+    # FREQ rule for the Google calendar event needs extra
+    # work if recurrence is monthly.
+    # Repeat on first dayX of each month.
+    rrules = None
+    day_of_week = None
+    if event_data['recurrence'] == 'MONTHLY':
+        # get start date.
+        start_date = event_data['start']
+        day_of_week = get_day_of_week(start_date)
+    recur = event_data['recurrence']
+    if not event_data['recurrence'] == 'MONTHLY':
+        rrules = f'RRULE:FREQ={recur}'
+    else:
+        # default is the first day_of_week in the month
+        # Use the day of the month to determine if
+        # using the 2nd, 3rd, 4th, or 5th day_of_week
+        # in the month.
+        # Not sure how well this will work for all scenarios.
+        week = '1'
+        date_list = start_date.split('-')
+        day_of_month = int(date_list[2])
+        if day_of_month > 28:
+            week = '5'
+        if day_of_month <= 28 and day_of_month > 21:
+            week = '4'
+        elif day_of_month <= 21 and day_of_month > 14:
+            week = '3'
+        elif day_of_month <= 14 and day_of_month > 7:
+            week = '2'
+        rrules = f'RRULE:FREQ=MONTHLY;BYDAY={week}{day_of_week}'
+
+    google_data = {
+        'summary': event_data['summary'],
+        'description': event_data['description'],
         'start': {
-            'dateTime': start_time,
+            'dateTime': event_data['start'],
             'timeZone': 'America/New_York',  # Adjust to your timezone
         },
         'end': {
-            'dateTime': end_time,
+            'dateTime': event_data['end'],
             'timeZone': 'America/New_York',  # Adjust to your timezone
         },
-        'recurrence': [
-            f'RRULE:FREQ={recurrence}'
-        ],
+        'attendees': [event_data['attendees']],
+        'location': event_data['location'],
+        'recurrence': [rrules],
     }
-    new_event = service.events().insert(calendarId='primary', body=event_data).execute()
+    new_event = service.events().insert(
+        calendarId='c_ad09f0b2ef528685c282a582162540f025a7bdd5c316b4dc2b1708a6f2a45271@group.calendar.google.com',
+        body=google_data
+        ).execute()
     if new_event is None:
         print("ERROR: Unable to create Calendar event")
         return None

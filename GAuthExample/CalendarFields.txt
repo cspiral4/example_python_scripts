@@ -18,15 +18,13 @@ Field Name: Organizers
 Field Name: Created
 Field Name: Duration (m)
 
-Google Calendar events field name used:
+Google Calendar events field names used:
 
 summary: Title
 description: Description
 start: Start Time
 end: End Time
 recurrence: Recurrence
-
-could also do:
-attendees: Who (if this is a list of emails.)
+attendees: Who (assuming this is a list of emails.)
 location: Location
 

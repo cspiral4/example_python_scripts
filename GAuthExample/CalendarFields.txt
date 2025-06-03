@@ -1,5 +1,6 @@
 AirTable Calendar events field names
 
+Field Name: Event ID
 Field Name: Title
 Field Name: Description
 Field Name: Status
@@ -18,13 +19,18 @@ Field Name: Organizers
 Field Name: Created
 Field Name: Duration (m)
 
-Google Calendar events field names used:
+Google Calendar events field name used:
 
 summary: Title
 description: Description
 start: Start Time
 end: End Time
 recurrence: Recurrence
-attendees: Who (assuming this is a list of emails.)
 location: Location
+extendedProperties: Event ID (actual value would be "at_event_id={at_event.get('Event ID')}"
+   this simplifies comparisons - check to see if AirTable event
+   id matches the extendedProperties setting.
+
+
+The AirTable "Who" field is not a list of attendees, looks more like notes.
 

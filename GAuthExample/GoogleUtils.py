@@ -7,11 +7,14 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import datetime
+import dateutil
 
 # Google client authentication information
-# Replace CLIENT_ID and CLIENT_SECRET with the actual values
+# Replace CLIENT_ID, CALENDAR_ID, and CLIENT_SECRET with the actual values
 # of the account to be used.
+# OAuth2 info for Google authentication
 GOOGLE_CLIENT_ID = "CLIENT_ID"
+GOOGLE_CAL_ID = "CALENDAR_ID"
 GOOGLE_CLIENT_SECRET = "CLIENT_SECRET"
 REDIRECT_URI = "http://localhost:5000/callback"
 SCOPE = "https://www.googleapis.com/auth/calendar"
@@ -22,9 +25,8 @@ app = Flask(__name__)
 # Used to store the token once captured.
 auth_token_data = {}
 
-#
 # Authentication functions, using Flask to create a web server process.
-#
+
 # Defines the default URI used when the server starts the Flask app.
 # This acts as the index.html file of a web site.
 @app.route("/")
@@ -106,12 +108,10 @@ def start_auth_flow():
 
     return auth_token_data
 
-#
-# Calendar functions.
-#
-# Start a google service that talks to the user's Calendar
+
+# Calendar read function.
 # Uses the token_data info returned by start_auth_flow()
-def open_google_calendar(access_token: str):
+def open_google_calendar(access_token):
     """
     Opens the user's primary Google Calendar using an OAuth 2.0 token.
 
@@ -133,10 +133,6 @@ def open_google_calendar(access_token: str):
         print(f"An error occurred: {error}")
         return None
 
-# The day of the week is needed for calendar events
-# that recur on a particular week day, like second
-# Tuesday of every month.  This uses the start date
-# to determine the weekday.
 def get_day_of_week(date_string):
     """
     Determines the day of the week from a date string.
@@ -167,32 +163,24 @@ def create_event(service, event_data):
     # work if recurrence is monthly.
     # Repeat on first dayX of each month.
     rrules = None
-    day_of_week = None
-    if event_data['recurrence'] == 'MONTHLY':
-        # get start date.
-        start_date = event_data['start']
-        day_of_week = get_day_of_week(start_date)
     recur = event_data['recurrence']
     if not event_data['recurrence'] == 'MONTHLY':
         rrules = f'RRULE:FREQ={recur}'
     else:
-        # default is the first day_of_week in the month
-        # Use the day of the month to determine if
-        # using the 2nd, 3rd, 4th, or 5th day_of_week
-        # in the month.
-        # Not sure how well this will work for all scenarios.
-        week = '1'
-        date_list = start_date.split('-')
-        day_of_month = int(date_list[2])
-        if day_of_month > 28:
-            week = '5'
-        if day_of_month <= 28 and day_of_month > 21:
-            week = '4'
-        elif day_of_month <= 21 and day_of_month > 14:
-            week = '3'
-        elif day_of_month <= 14 and day_of_month > 7:
-            week = '2'
-        rrules = f'RRULE:FREQ=MONTHLY;BYDAY={week}{day_of_week}'
+        rrules = construct_monthly_recurrence(event_data)
+
+    print("\n\nNext Event: %s\n"%event_data['summary'])
+    # check to see if event already exists.
+    possible_duplicates = find_event_by_summary(service, event_data['summary'])
+    if not possible_duplicates is None:
+        print("%s possible duplicates found"%len(possible_duplicates))
+        for possible_duplicate in possible_duplicates:
+            event_match = compare_events(event_data, possible_duplicate)
+            if event_match:
+                print("Calendar event already exists")
+                return possible_duplicate
+    else:
+        print("No similar events found in the Google Calendar")
 
     google_data = {
         'summary': event_data['summary'],
@@ -205,12 +193,12 @@ def create_event(service, event_data):
             'dateTime': event_data['end'],
             'timeZone': 'America/New_York',  # Adjust to your timezone
         },
-        'attendees': [event_data['attendees']],
         'location': event_data['location'],
         'recurrence': [rrules],
+        'extendedProperties': f'at_event_id={event_data["event_id"]}'
     }
     new_event = service.events().insert(
-        calendarId='c_ad09f0b2ef528685c282a582162540f025a7bdd5c316b4dc2b1708a6f2a45271@group.calendar.google.com',
+        calendarId=GOOGLE_CAL_ID,
         body=google_data
         ).execute()
     if new_event is None:
@@ -221,8 +209,6 @@ def create_event(service, event_data):
         return new_event
 
 # As an FYI, this is a method to read the calendar entries
-# TBD: add start and end times to input argument list
-#      to limit the events grabbed.
 def read_google_events(service):
     """
     Fetch and print next 10 events
@@ -234,8 +220,7 @@ def read_google_events(service):
     - cal_events: list of Google Calendar events
     """
     results = service.events().list(
-        calendarId='primary', maxResults=10,
-        singleEvents=True, orderBy='startTime'
+        calendarId=GOOGLE_CAL_ID, maxResults=10
     ).execute()
     cal_events = results.get('items', [])
 
@@ -244,3 +229,138 @@ def read_google_events(service):
         return None
     else:
         return cal_events
+
+# TBD: add function that takes service, start, and end times
+#      to limit the events grabbed.
+
+# Function that returns a list of events with the
+# specified summary field value.
+def find_event_by_summary(service, summary):
+    """
+    Finds a Google Calendar event with a matching summary.
+
+    Args:
+        service: Authorized Google Calendar API service instance.
+        summary: The event summary to search for.
+
+    Returns:
+        dict or None: The first event that matches the summary or None if not found.
+    """
+    event_matches = []
+
+    try:
+        events_result = service.events().list(
+            calendarId=GOOGLE_CAL_ID,
+            maxResults=250
+        ).execute()
+
+        events = events_result.get('items', [])
+
+        for event in events:
+            if event.get('summary', '').strip().lower() == summary.strip().lower():
+                event_matches.append(event)
+
+        if len(event_matches) == 0:  # No match found
+            return None
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+    return event_matches
+
+# Compare AirTable event_data to Google calendar event settings.
+def compare_events(at_event_data, gcal_event):
+    """
+    Compares an at_event_data['event_id'] to the
+    gcal_event.get('extendedProperties') value.  Searches for
+
+        at_event_id={at_event_data['event_id']}
+
+    in the extendedProperties settings.
+
+    Args:
+        at_event_data: dictionary of AirTable event data to use
+                       in constructing a goole calendar event
+        gcal_event: a google calendar event to compare to the
+                    AirTable event data
+
+    Returns:
+        True:  at_event_data['event_id'] matches the gcal_event
+               'extendedProperties' value.
+        False: at_event_id is not in the extendedProperties or is not
+               the same.
+    """
+    matches = True
+
+    # Compare AirTable event ids.
+    if not at_event_data['event_id'] in gcal_event.get('extendedProperties', ''):
+        print("AirTable Event ID:  %s"%at_event_data['event_id'])
+        print("GoogleCal Props Event ID: %s"%gcal_event.get('extendedProperties', ''))
+        matches = False
+    else:
+        print("The AirTable event with ID %s already exists in the Google Calendar"%at_event_data['summary'])
+
+    print("\n\n")
+    return matches
+
+# Update gcal_event with the at_event_data.        
+def modify_event(service, at_event_data, gcal_event):
+    """
+    Modify the Google Calendar event.
+
+    Parameters:
+    - service: Google Calendar API service instance
+    - at_event_data: Updated event information from AirTable
+    - gcal_event: Google Calendar event object to update
+
+    Returns:
+    - updated_event: The updated event object
+    """
+    # Modify the gcal event fields.
+    gcal_event['description'] = at_event_data['description']
+    gcal_event['start'] = at_event_data['start']
+    gcal_event['end'] = at_event_data['end']
+    gcal_event['recurrence'] = "RRULE:FREQ=" + at_event_data['recurrence']
+    if at_event_data['recurrence'] == 'MONTHLY':
+        gcal_event['recurrence'] = construct_monthly_recurrence(at_event_data)
+
+    updated_event = service.events().update(GOOGLE_CAL_ID, gcal_event['id'], gcal_event).execute()
+
+    print(f"Google Event updated: {updated_event.get('htmlLink')}")
+    return updated_event
+
+# Construct a Monthly recurrence rule from AirTable data.
+def construct_monthly_recurrence(at_event_data):
+    """
+    Using the start time, get the day of the week
+    and week of the month, and construct a monthly
+    recurrence rule on a specific day of the week.
+
+    Parameters:
+    - at_event_data: AirTable calendar event data
+
+    Returns:
+    - recurrence_rule: string containing a monthly recurrence rule.
+    """
+    recurrence_rule = ''
+
+    # get start date.
+    start_date = event_data['start']
+    day_of_week = get_day_of_week(start_date)
+    week = '1'
+    date_time = start_date.split('T')
+    date_list = date_time[0].split('-')
+    day_of_month = int(date_list[2])
+    # get week of the month
+    if day_of_month > 28:
+        week = '5'
+    if day_of_month <= 28 and day_of_month > 21:
+        week = '4'
+    elif day_of_month <= 21 and day_of_month > 14:
+        week = '3'
+    elif day_of_month <= 14 and day_of_month > 7:
+        week = '2'
+    recurrence_rule = f'RRULE:FREQ=MONTHLY;BYDAY={week}{day_of_week}'
+
+    return recurrence_rule

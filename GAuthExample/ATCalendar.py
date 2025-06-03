@@ -16,9 +16,9 @@ import AirTableUtils as ATUtils
 import GoogleUtils as GUtils
 
 # AirTable authentication info.
-# replace your_airtable_api_pat, appXXXXXXXXXXXXXX, and Calendar
-# with the actual values: Airtable PAT, app id, and calendar id
-AT_PAT = "your_airtable_api_pat"
+# replace your_airtable_api_key, appXXXXXXXXXXXXXX, and Calendar
+# with the actual values
+AT_PAT = "your_airtable_api_key"
 AT_BASE_ID = "appXXXXXXXXXXXXXX"
 AT_TABLE_ID = "Calendar"
 

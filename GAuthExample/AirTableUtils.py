@@ -49,7 +49,9 @@ def fetch_airtable_calendar(pat,
             "description": fields.get("Description", ""),
             "recurrence": fields.get("Recurrence", "Once"),
             "location": fields.get("Location", ""),
-            "attendees": fields.get("Who", "")
+            "attendees": fields.get("New Organizer Name"),
+            "event_id": fields.get("Event ID"),
+            "status": fields.get("Status")
         }
         events.append(event)
 

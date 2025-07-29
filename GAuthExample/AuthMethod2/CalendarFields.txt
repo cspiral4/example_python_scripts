@@ -1,0 +1,42 @@
+AirTable Calendar events field names
+
+Field Name: Event ID
+Field Name: Title
+Field Name: Description
+Field Name: Status
+Field Name: Start Time
+Field Name: End Time
+Field Name: Recurrence
+Field Name: Location
+Field Name: Event Image
+Field Name: Excerpt
+Field Name: New Organizer Name
+Field Name: New Organizer Phone
+Field Name: New Organizer eMail
+Field Name: Event Price
+Field Name: Who
+Field Name: Organizers
+Field Name: Created
+Field Name: Duration (m)
+Field Name: Request Type
+
+Google Calendar events field name used:
+
+summary: Title
+description: Description
+start: Start Time
+end: End Time
+recurrence: Recurrence
+location: Location
+extendedProperties: Event ID (actual value would be "at_event_id={at_event.get('Event ID')}"
+   this simplifies comparisons - check to see if AirTable event
+   id matches the extendedProperties setting.
+
+Additional actions:
+
+The AirTable Request Type field will be used to determine if the AirTable event is new, was modified, or was deleted, and will be used to control
+the script flows.
+
+
+The AirTable "Who" field is not a list of attendees, looks more like notes.
+
